@@ -9,7 +9,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     if (b[0] < 2 && b[1] < 9 || 1 == b[0] && 9 == b[1] && b[2] < 1) throw new Error("Bootstrap's JavaScript requires jQuery version 1.9.1 or higher")
 }(jQuery), + function(a) {
     "use strict";
-
     function b() {
         var a = document.createElement("bootstrap"),
             b = {
@@ -45,7 +44,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     })
 }(jQuery), + function(a) {
     "use strict";
-
     function b(b) {
         return this.each(function() {
             var c = a(this),
@@ -73,7 +71,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     }, a(document).on("click.bs.alert.data-api", c, d.prototype.close)
 }(jQuery), + function(a) {
     "use strict";
-
     function b(b) {
         return this.each(function() {
             var d = a(this),
@@ -295,14 +292,12 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     })
 }(jQuery), + function(a) {
     "use strict";
-
     function b(b) {
         var c = b.attr("data-target");
         c || (c = b.attr("href"), c = c && /#[A-Za-z]/.test(c) && c.replace(/.*(?=#[^\s]*$)/, ""));
         var d = c && a(c);
         return d && d.length ? d : b.parent()
     }
-
     function c(c) {
         c && 3 === c.which || (a(e).remove(), a(f).each(function() {
             var d = a(this),
@@ -313,7 +308,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
             e.hasClass("open") && (c && "click" == c.type && /input|textarea/i.test(c.target.tagName) && a.contains(e[0], c.target) || (e.trigger(c = a.Event("hide.bs.dropdown", f)), c.isDefaultPrevented() || (d.attr("aria-expanded", "false"), e.removeClass("open").trigger("hidden.bs.dropdown", f))))
         }))
     }
-
     function d(b) {
         return this.each(function() {
             var c = a(this),
@@ -365,7 +359,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     }).on("click.bs.dropdown.data-api", f, g.prototype.toggle).on("keydown.bs.dropdown.data-api", f, g.prototype.keydown).on("keydown.bs.dropdown.data-api", ".dropdown-menu", g.prototype.keydown)
 }(jQuery), + function(a) {
     "use strict";
-
     function b(b, d) {
         return this.each(function() {
             var e = a(this),
@@ -722,7 +715,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     }
 }(jQuery), + function(a) {
     "use strict";
-
     function b(b) {
         return this.each(function() {
             var d = a(this),
@@ -762,11 +754,9 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     }
 }(jQuery), + function(a) {
     "use strict";
-
     function b(c, d) {
         this.$body = a(document.body), this.$scrollElement = a(a(c).is(document.body) ? window : c), this.options = a.extend({}, b.DEFAULTS, d), this.selector = (this.options.target || "") + " .nav li > a", this.offsets = [], this.targets = [], this.activeTarget = null, this.scrollHeight = 0, this.$scrollElement.on("scroll.bs.scrollspy", a.proxy(this.process, this)), this.refresh(), this.process()
     }
-
     function c(c) {
         return this.each(function() {
             var d = a(this),
@@ -825,7 +815,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     })
 }(jQuery), + function(a) {
     "use strict";
-
     function b(b) {
         return this.each(function() {
             var d = a(this),
@@ -879,7 +868,6 @@ if ("undefined" == typeof jQuery) throw new Error("Bootstrap's JavaScript requir
     a(document).on("click.bs.tab.data-api", '[data-toggle="tab"]', e).on("click.bs.tab.data-api", '[data-toggle="pill"]', e)
 }(jQuery), + function(a) {
     "use strict";
-
     function b(b) {
         return this.each(function() {
             var d = a(this),

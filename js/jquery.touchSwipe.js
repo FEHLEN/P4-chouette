@@ -15,7 +15,6 @@
     "function" == typeof define && define.amd && define.amd.jQuery ? define(["jquery"], factory) : factory("undefined" != typeof module && module.exports ? require("jquery") : jQuery)
 }(function($) {
     "use strict";
-
     function init(options) {
         return !options || void 0 !== options.allowPageScroll || void 0 === options.swipe && void 0 === options.swipeStatus || (options.allowPageScroll = NONE), void 0 !== options.click && void 0 === options.tap && (options.tap = options.click), options || (options = {}), options = $.extend({}, $.fn.swipe.defaults, options), this.each(function() {
             var $this = $(this),
@@ -23,7 +22,6 @@
             plugin || (plugin = new TouchSwipe(this, options), $this.data(PLUGIN_NS, plugin))
         })
     }
-
     function TouchSwipe(element, options) {
         function touchStart(jqEvent) {
             if (!(getTouchInProgress() || $(jqEvent.target).closest(options.excludedElements, $element).length > 0)) {
@@ -37,7 +35,6 @@
                 }
             }
         }
-
         function touchMove(jqEvent) {
             var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
             if (phase !== PHASE_END && phase !== PHASE_CANCEL && !inMultiFingerRelease()) {
@@ -56,7 +53,6 @@
                 ret === !1 && (phase = PHASE_CANCEL, triggerHandler(event, phase))
             }
         }
-
         function touchEnd(jqEvent) {
             var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent,
                 touches = event.touches;
@@ -66,20 +62,16 @@
             }
             return inMultiFingerRelease() && (fingerCount = fingerCountAtRelease), endTime = getTimeStamp(), duration = calculateDuration(), didSwipeBackToCancel() || !validateSwipeDistance() ? (phase = PHASE_CANCEL, triggerHandler(event, phase)) : options.triggerOnTouchEnd || options.triggerOnTouchEnd === !1 && phase === PHASE_MOVE ? (options.preventDefaultEvents !== !1 && jqEvent.cancelable !== !1 && jqEvent.preventDefault(), phase = PHASE_END, triggerHandler(event, phase)) : !options.triggerOnTouchEnd && hasTap() ? (phase = PHASE_END, triggerHandlerForGesture(event, phase, TAP)) : phase === PHASE_MOVE && (phase = PHASE_CANCEL, triggerHandler(event, phase)), setTouchInProgress(!1), null
         }
-
         function touchCancel() {
             fingerCount = 0, endTime = 0, startTime = 0, startTouchesDistance = 0, endTouchesDistance = 0, pinchZoom = 1, cancelMultiFingerRelease(), setTouchInProgress(!1)
         }
-
         function touchLeave(jqEvent) {
             var event = jqEvent.originalEvent ? jqEvent.originalEvent : jqEvent;
             options.triggerOnTouchLeave && (phase = getNextPhase(PHASE_END), triggerHandler(event, phase))
         }
-
         function removeListeners() {
             $element.unbind(START_EV, touchStart), $element.unbind(CANCEL_EV, touchCancel), $element.unbind(MOVE_EV, touchMove), $element.unbind(END_EV, touchEnd), LEAVE_EV && $element.unbind(LEAVE_EV, touchLeave), setTouchInProgress(!1)
         }
-
         function getNextPhase(currentPhase) {
             var nextPhase = currentPhase,
                 validTime = validateSwipeTime(),
@@ -87,12 +79,10 @@
                 didCancel = didSwipeBackToCancel();
             return !validTime || didCancel ? nextPhase = PHASE_CANCEL : !validDistance || currentPhase != PHASE_MOVE || options.triggerOnTouchEnd && !options.triggerOnTouchLeave ? !validDistance && currentPhase == PHASE_END && options.triggerOnTouchLeave && (nextPhase = PHASE_CANCEL) : nextPhase = PHASE_END, nextPhase
         }
-
         function triggerHandler(event, phase) {
             var ret, touches = event.touches;
             return (didSwipe() || hasSwipes()) && (ret = triggerHandlerForGesture(event, phase, SWIPE)), (didPinch() || hasPinches()) && ret !== !1 && (ret = triggerHandlerForGesture(event, phase, PINCH)), didDoubleTap() && ret !== !1 ? ret = triggerHandlerForGesture(event, phase, DOUBLE_TAP) : didLongTap() && ret !== !1 ? ret = triggerHandlerForGesture(event, phase, LONG_TAP) : didTap() && ret !== !1 && (ret = triggerHandlerForGesture(event, phase, TAP)), phase === PHASE_CANCEL && touchCancel(event), phase === PHASE_END && (touches ? touches.length || touchCancel(event) : touchCancel(event)), ret
         }
-
         function triggerHandlerForGesture(event, phase, gesture) {
             var ret;
             if (gesture == SWIPE) {
@@ -128,26 +118,21 @@
                 doubleTapStartTime = null, $element.trigger("tap", [event.target]), options.tap && (ret = options.tap.call($element, event, event.target))
             }, this), options.doubleTapThreshold)) : (doubleTapStartTime = null, $element.trigger("tap", [event.target]), options.tap && (ret = options.tap.call($element, event, event.target)))) : gesture == DOUBLE_TAP ? phase !== PHASE_CANCEL && phase !== PHASE_END || (clearTimeout(singleTapTimeout), clearTimeout(holdTimeout), doubleTapStartTime = null, $element.trigger("doubletap", [event.target]), options.doubleTap && (ret = options.doubleTap.call($element, event, event.target))) : gesture == LONG_TAP && (phase !== PHASE_CANCEL && phase !== PHASE_END || (clearTimeout(singleTapTimeout), doubleTapStartTime = null, $element.trigger("longtap", [event.target]), options.longTap && (ret = options.longTap.call($element, event, event.target)))), ret
         }
-
         function validateSwipeDistance() {
             var valid = !0;
             return null !== options.threshold && (valid = distance >= options.threshold), valid
         }
-
         function didSwipeBackToCancel() {
             var cancelled = !1;
             return null !== options.cancelThreshold && null !== direction && (cancelled = getMaxDistance(direction) - distance >= options.cancelThreshold), cancelled
         }
-
         function validatePinchDistance() {
             return null === options.pinchThreshold || pinchDistance >= options.pinchThreshold
         }
-
         function validateSwipeTime() {
             var result;
             return result = !options.maxTimeThreshold || !(duration >= options.maxTimeThreshold)
         }
-
         function validateDefaultEvent(jqEvent, direction) {
             if (options.preventDefaultEvents !== !1)
                 if (options.allowPageScroll === NONE) jqEvent.preventDefault();
@@ -170,22 +155,18 @@
                     }
                 }
         }
-
         function validatePinch() {
             var hasCorrectFingerCount = validateFingers(),
                 hasEndPoint = validateEndPoint(),
                 hasCorrectDistance = validatePinchDistance();
             return hasCorrectFingerCount && hasEndPoint && hasCorrectDistance
         }
-
         function hasPinches() {
             return !!(options.pinchStatus || options.pinchIn || options.pinchOut)
         }
-
         function didPinch() {
             return !(!validatePinch() || !hasPinches())
         }
-
         function validateSwipe() {
             var hasValidTime = validateSwipeTime(),
                 hasValidDistance = validateSwipeDistance(),
@@ -195,73 +176,56 @@
                 valid = !didCancel && hasEndPoint && hasCorrectFingerCount && hasValidDistance && hasValidTime;
             return valid
         }
-
         function hasSwipes() {
             return !!(options.swipe || options.swipeStatus || options.swipeLeft || options.swipeRight || options.swipeUp || options.swipeDown)
         }
-
         function didSwipe() {
             return !(!validateSwipe() || !hasSwipes())
         }
-
         function validateFingers() {
             return fingerCount === options.fingers || options.fingers === ALL_FINGERS || !SUPPORTS_TOUCH
         }
-
         function validateEndPoint() {
             return 0 !== fingerData[0].end.x
         }
-
         function hasTap() {
             return !!options.tap
         }
-
         function hasDoubleTap() {
             return !!options.doubleTap
         }
-
         function hasLongTap() {
             return !!options.longTap
         }
-
         function validateDoubleTap() {
             if (null == doubleTapStartTime) return !1;
             var now = getTimeStamp();
             return hasDoubleTap() && now - doubleTapStartTime <= options.doubleTapThreshold
         }
-
         function inDoubleTap() {
             return validateDoubleTap()
         }
-
         function validateTap() {
             return (1 === fingerCount || !SUPPORTS_TOUCH) && (isNaN(distance) || distance < options.threshold)
         }
-
         function validateLongTap() {
             return duration > options.longTapThreshold && distance < DOUBLE_TAP_THRESHOLD
         }
-
         function didTap() {
             return !(!validateTap() || !hasTap())
         }
-
         function didDoubleTap() {
             return !(!validateDoubleTap() || !hasDoubleTap())
         }
-
         function didLongTap() {
             return !(!validateLongTap() || !hasLongTap())
         }
-
         function startMultiFingerRelease(event) {
             previousTouchEndTime = getTimeStamp(), fingerCountAtRelease = event.touches.length + 1
         }
-
         function cancelMultiFingerRelease() {
             previousTouchEndTime = 0, fingerCountAtRelease = 0
         }
-
         function inMultiFingerRelease() {
             var withinThreshold = !1;
             if (previousTouchEndTime) {
@@ -270,15 +234,12 @@
             }
             return withinThreshold
         }
-
         function getTouchInProgress() {
             return !($element.data(PLUGIN_NS + "_intouch") !== !0)
         }
-
         function setTouchInProgress(val) {
             $element && (val === !0 ? ($element.bind(MOVE_EV, touchMove), $element.bind(END_EV, touchEnd), LEAVE_EV && $element.bind(LEAVE_EV, touchLeave)) : ($element.unbind(MOVE_EV, touchMove, !1), $element.unbind(END_EV, touchEnd, !1), LEAVE_EV && $element.unbind(LEAVE_EV, touchLeave, !1)), $element.data(PLUGIN_NS + "_intouch", val === !0))
         }
-
         function createFingerData(id, evt) {
             var f = {
                 start: {
@@ -296,60 +257,48 @@
             };
             return f.start.x = f.last.x = f.end.x = evt.pageX || evt.clientX, f.start.y = f.last.y = f.end.y = evt.pageY || evt.clientY, fingerData[id] = f, f
         }
-
         function updateFingerData(evt) {
             var id = void 0 !== evt.identifier ? evt.identifier : 0,
                 f = getFingerData(id);
             return null === f && (f = createFingerData(id, evt)), f.last.x = f.end.x, f.last.y = f.end.y, f.end.x = evt.pageX || evt.clientX, f.end.y = evt.pageY || evt.clientY, f
         }
-
         function getFingerData(id) {
             return fingerData[id] || null
         }
-
         function setMaxDistance(direction, distance) {
             direction != NONE && (distance = Math.max(distance, getMaxDistance(direction)), maximumsMap[direction].distance = distance)
         }
-
         function getMaxDistance(direction) {
             if (maximumsMap[direction]) return maximumsMap[direction].distance
         }
-
         function createMaximumsData() {
             var maxData = {};
             return maxData[LEFT] = createMaximumVO(LEFT), maxData[RIGHT] = createMaximumVO(RIGHT), maxData[UP] = createMaximumVO(UP), maxData[DOWN] = createMaximumVO(DOWN), maxData
         }
-
         function createMaximumVO(dir) {
             return {
                 direction: dir,
                 distance: 0
             }
         }
-
         function calculateDuration() {
             return endTime - startTime
         }
-
         function calculateTouchesDistance(startPoint, endPoint) {
             var diffX = Math.abs(startPoint.x - endPoint.x),
                 diffY = Math.abs(startPoint.y - endPoint.y);
             return Math.round(Math.sqrt(diffX * diffX + diffY * diffY))
         }
-
         function calculatePinchZoom(startDistance, endDistance) {
             var percent = endDistance / startDistance * 1;
             return percent.toFixed(2)
         }
-
         function calculatePinchDirection() {
             return pinchZoom < 1 ? OUT : IN
         }
-
         function calculateDistance(startPoint, endPoint) {
             return Math.round(Math.sqrt(Math.pow(endPoint.x - startPoint.x, 2) + Math.pow(endPoint.y - startPoint.y, 2)))
         }
-
         function calculateAngle(startPoint, endPoint) {
             var x = startPoint.x - endPoint.x,
                 y = endPoint.y - startPoint.y,
@@ -357,18 +306,15 @@
                 angle = Math.round(180 * r / Math.PI);
             return angle < 0 && (angle = 360 - Math.abs(angle)), angle
         }
-
         function calculateDirection(startPoint, endPoint) {
             if (comparePoints(startPoint, endPoint)) return NONE;
             var angle = calculateAngle(startPoint, endPoint);
             return angle <= 45 && angle >= 0 ? LEFT : angle <= 360 && angle >= 315 ? LEFT : angle >= 135 && angle <= 225 ? RIGHT : angle > 45 && angle < 135 ? DOWN : UP
         }
-
         function getTimeStamp() {
             var now = new Date;
             return now.getTime()
         }
-
         function getbounds(el) {
             el = $(el);
             var offset = el.offset(),
@@ -380,11 +326,9 @@
                 };
             return bounds
         }
-
         function isInBounds(point, bounds) {
             return point.x > bounds.left && point.x < bounds.right && point.y > bounds.top && point.y < bounds.bottom
         }
-
         function comparePoints(pointA, pointB) {
             return pointA.x == pointB.x && pointA.y == pointB.y
         }
